@@ -79,6 +79,7 @@ struct _AnjutaShellIface {
 	/* Virtual Table */
 	AnjutaStatus* (*get_status) (AnjutaShell  *shell, GError **error);
 	AnjutaUI* (*get_ui) (AnjutaShell  *shell, GError **error);
+	GtkBuilder* (*get_builder) (AnjutaShell  *shell, GError **error);
 	AnjutaPreferences* (*get_preferences) (AnjutaShell *shell, GError **error);
 	AnjutaPluginManager* (*get_plugin_manager) (AnjutaShell *shell,
 												GError **error);
@@ -149,6 +150,8 @@ GType  anjuta_shell_get_type        (void);
 AnjutaStatus* anjuta_shell_get_status (AnjutaShell *shell, GError **error);
 
 AnjutaUI* anjuta_shell_get_ui (AnjutaShell *shell, GError **error);
+
+GtkBuilder* anjuta_shell_get_builder (AnjutaShell *shell, GError **error);
 
 AnjutaPreferences* anjuta_shell_get_preferences (AnjutaShell *shell,
 												 GError **error);

@@ -821,6 +821,24 @@ anjuta_shell_get_ui (AnjutaShell *shell, GError **error)
 }
 
 /**
+ * anjuta_shell_get_builder:
+ * @shell: A #AnjutaShell interface
+ * @error: Error propagation object
+ *
+ * Retrieves the #GtkBuilder object associated with the shell.
+ *
+ * Return value: (transfer none): The #GtkBuilder object.
+ */
+GtkBuilder*
+anjuta_shell_get_builder (AnjutaShell *shell, GError **error)
+{
+	g_return_val_if_fail (shell != NULL, NULL);
+	g_return_val_if_fail (ANJUTA_IS_SHELL (shell), NULL);
+
+	return ANJUTA_SHELL_GET_IFACE (shell)->get_builder (shell, error);
+}
+
+/**
  * anjuta_shell_get_preferences:
  * @shell: A #AnjutaShell interface
  * @error: Error propagation object

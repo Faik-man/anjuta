@@ -551,9 +551,15 @@ anjuta_window_dispose (GObject *widget)
 		g_hash_table_destroy (win->values);
 		win->values = NULL;
 	}
-	if (win->ui) {
+	if (win->ui)
+	{
 		g_object_unref (win->ui);
 		win->ui = NULL;
+	}
+	if (win->builder)
+	{
+		g_object_unref (win->builder);
+		win->builder = NULL;
 	}
 	if (win->preferences)
 	{
@@ -662,6 +668,10 @@ anjuta_window_instance_init (AnjutaWindow *win)
 			  "disconnect_proxy",
 			  G_CALLBACK (disconnect_proxy_cb),
 			  win);
+
+	/* GtkBuilder object */
+	win->builder = gtk_builder_new ();
+	g_object_add_weak_pointer (G_OBJECT (win->builder), (gpointer)&win->builder);
 
 	/* Plugin Manager */
 	plugins_dirs = g_list_prepend (plugins_dirs, PACKAGE_PLUGIN_DIR);
@@ -1408,6 +1418,13 @@ anjuta_window_get_ui  (AnjutaShell *shell, GError **error)
 	return ANJUTA_WINDOW (shell)->ui;
 }
 
+static GtkBuilder *
+anjuta_window_get_builder  (AnjutaShell *shell, GError **error)
+{
+	g_return_val_if_fail (ANJUTA_IS_WINDOW (shell), NULL);
+	return ANJUTA_WINDOW (shell)->builder;
+}
+
 static AnjutaPreferences *
 anjuta_window_get_preferences  (AnjutaShell *shell, GError **error)
 {
@@ -1448,6 +1465,7 @@ anjuta_shell_iface_init (AnjutaShellIface *iface)
 	iface->get_object = anjuta_window_get_object;
 	iface->get_status = anjuta_window_get_status;
 	iface->get_ui = anjuta_window_get_ui;
+	iface->get_builder = anjuta_window_get_builder;
 	iface->get_preferences = anjuta_window_get_preferences;
 	iface->get_plugin_manager = anjuta_window_get_plugin_manager;
 	iface->get_profile_manager = anjuta_window_get_profile_manager;

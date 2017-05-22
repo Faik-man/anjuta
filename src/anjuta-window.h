@@ -56,6 +56,7 @@ struct _AnjutaWindow
 
 	AnjutaStatus *status;
 	AnjutaUI *ui;
+	GtkBuilder *builder;
 	AnjutaPreferences *preferences;
 	GSettings* settings;
 	AnjutaPluginManager *plugin_manager;
